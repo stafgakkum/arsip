@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12284c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ARSIP">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>ARSIP SDIRBINGAKKUM</title>
+<style>
+html,body{margin:0;height:100%;background:#12284c;font-family:system-ui,sans-serif}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+#msg{position:fixed;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;color:#fff;text-align:center;padding:24px}
+#msg img{width:84px;border-radius:20px}
+#inst{position:fixed;right:12px;bottom:12px;z-index:5;display:none;border:0;border-radius:999px;background:#b8892b;color:#fff;font-weight:700;padding:12px 18px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div id="msg"><img src="icon-192.png" alt=""><div id="mt">Memuat ARSIP SDIRBINGAKKUM...</div></div>
+<iframe id="f" title="ARSIP SDIRBINGAKKUM" allow="camera; clipboard-write" hidden></iframe>
+<button id="inst">Pasang aplikasi</button>
+<script>
+// GANTI dengan URL Web App Apps Script Anda (berakhiran /exec)
+const APP_URL = 'https://script.google.com/macros/s/AKfycbyQb3Uk-FkeRQGaC6YdWeduNxu9D-XroCbvg9f3wJS_o8sjofZkIsZla6nhLyvpYsr7/exec';
+
+const f=document.getElementById('f'),m=document.getElementById('msg');
+function go(){
+  if(!navigator.onLine){document.getElementById('mt').innerHTML='Tidak ada koneksi internet.<br>Sambungkan lalu buka kembali.';return}
+  f.hidden=true;f.src=APP_URL;
+}
+f.onload=()=>{f.hidden=false;m.style.display='none'};
+addEventListener('online',go);
+go();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+let dp;const b=document.getElementById('inst');
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;b.style.display='block'});
+b.onclick=async()=>{b.style.display='none';dp.prompt();dp=null};
+addEventListener('appinstalled',()=>b.style.display='none');
+</script>
+</body>
+</html>
